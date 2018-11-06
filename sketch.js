@@ -42,16 +42,16 @@ function setup() {
         'neonBlue': [13,213,252],
         'neonYellow': [243,243,21]
     }
-    var targetVideoWidth = windowWidth * 0.50;
-    var targetVideoHeight = windowHeight * 0.50;
+    var targetVideoWidth = 300;
+    var targetVideoHeight = 200;
 
     capture = createCapture(VIDEO);
     capture.size(targetVideoWidth, targetVideoHeight);
     capture.hide();
 
-    blendSlider = createSlider(-1, 1, .2, .1);
+    blendSlider = createSlider(-1, 1, .1, .1);
     blendSlider.style('width', '80px');
-    blendSlider.position(5, capture.height + capture.height / 10);
+    blendSlider.position(12, capture.height + 50);
 
     var pixelD = pixelDensity();
     pixelCount = 4 * (capture.width * pixelD) * (capture.height * pixelD);
@@ -60,17 +60,27 @@ function setup() {
 
 function draw() {
     canvasWidth = capture.width;
-    canvasHeight = blendSlider.y + blendSlider.height*2;
+    canvasHeight = blendSlider.y + blendSlider.height * 2 - 10;
     var canvas = createCanvas(canvasWidth, canvasHeight);
-    background(13,213,252);
+    background("magenta");
     var pixelD = pixelDensity();
     pixelCount = 4 * (capture.width * pixelD) * (capture.height * pixelD);
 
     image(capture, 0, 0, capture.width, capture.height);
     blend = blendSlider.value();
 
+    textSize(28);
+    if ((blend < 0.3) && (blend > -0.3)) {
+        var headerText = "you can be neon too";
+        fill("yellow");
+    } else {
+        var headerText = "YOU ARE NEON NOW";
+        fill(random(["yellow", "orange", "cyan", "lime"]));
+    };
+    text(headerText, 5, capture.height + 30);
+
     textSize(32);
-    fill(255,103,0);
+    fill("cyan");
     stroke(2);
     text("neon-blend", blendSlider.x * 2 + blendSlider.width, blendSlider.y + blendSlider.height / 2);
 
